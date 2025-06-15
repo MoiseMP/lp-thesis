@@ -2,10 +2,14 @@
 source('src/1_bootstrap.R')
 #set.seed
 
-library(purrr)
-library(dplyr)
-library(furrr)
-library(future)
+packages_to_install <- c("purrr", "dplyr", "furrr", "future")
+
+for (pkg in packages_to_install) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+  library(pkg, character.only = TRUE)
+}
 
 args = commandArgs(trailingOnly=TRUE)
 
