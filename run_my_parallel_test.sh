@@ -1,21 +1,16 @@
 #!/bin/bash
-#SBATCH -n 16
-#SBATCH -t 0:10:00
-#SBATCH --job-name=parallel_r_test
-#SBATCH --output=parallel_r_test.out
+#SBATCH --job-name=renv_job
+#SBATCH --output=renv_job.%j.out
+#SBATCH --error=renv_job.%j.err
+#SBATCH --time=01:00:00
+#SBATCH --cpus-per-task=48
+#SBATCH --mem=64G
 
-# Load R module (adjust as needed)
-module load 2022
-module load R/4.2.1-foss-2022a
+module load 2024
+module load R/4.4.2-gfbf-2024a
 
-# Copy R script to scratch (optional, for bigger jobs)
-cp $HOME/my_parallel_test.R "$TMPDIR"
+# Restore project library
+R -e "renv::restore()"
 
-# Go to scratch directory
-cd "$TMPDIR"
-
-# Run the R script
-Rscript my_parallel_test.R
-
-# Copy output back home
-cp result.txt $HOME/
+# Run your analysis
+Rscript scripts/my_analysis.R
