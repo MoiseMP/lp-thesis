@@ -1,6 +1,11 @@
-library(boot)
-library(sandwich)
-library(np)
+packages_to_install <- c("boot", "sandwich", "np")
+
+for (pkg in packages_to_install) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+  library(pkg, character.only = TRUE)
+}
 
 sim_ar <- function(phi, sd = 1, n = 95) {
   #phi: list of ar parameters
