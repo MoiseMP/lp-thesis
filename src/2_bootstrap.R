@@ -1,15 +1,9 @@
 #!/usr/bin/env Rscript
 source('src/1_bootstrap.R')
 #set.seed
-
-packages_to_install <- c("purrr", "dplyr", "furrr", "future")
-
-for (pkg in packages_to_install) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    install.packages(pkg)
-  }
-  library(pkg, character.only = TRUE)
-}
+library(purr)
+library(dplyr)
+library(future)
 
 args = commandArgs(trailingOnly=TRUE)
 
@@ -29,14 +23,16 @@ q <- 2
 
 method <- args[1]
 type <- args[2]
-M <- args[3]
-B <- args[4]
+M <- as.integer(args[3])
+B <- as.integer(args[4])
 
 
 
 
 #n_cores <- parallelly::availableCores() - 1
-plan(multisession, workers = 50)
+n_workers <- future::availableCores()
+plan(multisession, workers = n_workers)
+
 
 true_irf <- true_irf_ar_2(phi,horizons = horizons)
 true_irf <- phi^horizons
@@ -283,9 +279,15 @@ run_mc <- function(M, phi, n, q, horizons, B, alpha = 0.1, method = c('ar', 'blo
 #run_mc(100, phi, n, q, horizons, 5, alpha = 0.01, method = 'block', type = 'mbb')
 #run_mc(100, phi, n, q, horizons, 5, alpha = 0.01, method = 'sieve')
 
-results <- run_mc(100, phi, n, q, horizons, 5, alpha = 0.01, method = 'ar', type = 'iid')
+results <- run_mc(M, phi, n, q, horizons, B, alpha = 0.01, method = method, type = type)
 result_table <- results[[1]]
 result_coverage <- results[[2]]
 
 write.csv(result_table, paste0(paste0('data/result_table', method, type, sep = '_'),'.csv'), row.names = FALSE)
 write.csv(result_coverage, paste0(paste0('data/result_coverage', method, type, sep = '_'),'.csv'), row.names = FALSE)
+
+file_table <- paste0('data/result_table_', method, '_', type, '.csv')
+file_coverage <- paste0('data/result_coverage_', method, '_', type, '.csv')
+
+write.csv(result_table, file_table, row.names = FALSE)
+write.csv(result_coverage, file_coverage, row.names = FALSE)
