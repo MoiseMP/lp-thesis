@@ -35,8 +35,8 @@ B <- args[4]
 
 
 
-n_cores <- parallelly::availableCores() - 1
-plan(multisession, workers = n_cores)
+#n_cores <- parallelly::availableCores() - 1
+plan(multisession, workers = 50)
 
 true_irf <- true_irf_ar_2(phi,horizons = horizons)
 true_irf <- phi^horizons
