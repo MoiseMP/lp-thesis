@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 source('src/1_bootstrap.R')
 #set.seed
-library(purr)
+library(purrr)
 library(dplyr)
 library(future)
 
