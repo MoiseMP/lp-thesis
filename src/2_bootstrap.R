@@ -2,7 +2,7 @@
 source('src/1_bootstrap.R')
 #set.seed
 library(purrr)
-library(furr)
+library(furrr)
 library(dplyr)
 library(future)
 

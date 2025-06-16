@@ -16,4 +16,4 @@ module load R/4.4.2-gfbf-2024a
 R -e "renv::restore()"
 
 # Run your analysis
-Rscript src/2_bootstrap.R ar iid 10 10
+Rscript src/2_bootstrap.R ar iid 10 10  
