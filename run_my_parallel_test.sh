@@ -3,8 +3,8 @@
 #SBATCH --output=logs_job.%j.out
 #SBATCH --error=logs_job.%j.err
 #SBATCH --time=01:00:00
-#SBATCH --cpus-per-task=48
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=64
+#SBATCH --mem=12G
 
 #SBATCH --mail-user=m.n.mpongo@student.vu.nl
 #SBATCH --mail-type=END,FAIL
